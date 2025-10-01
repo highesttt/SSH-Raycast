@@ -1,0 +1,86 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "code-ext",
+  "title": "SSH",
+  "description": "Quickly ssh into your servers from Raycast",
+  "icon": "icon.png",
+  "author": "highesttt",
+  "categories": [
+    "Developer Tools"
+  ],
+  "license": "MIT",
+  "platforms": [
+    "Windows"
+  ],
+  "commands": [
+    {
+      "name": "serverList",
+      "title": "SSH Server List",
+      "description": "View and connect to your servers via ssh",
+      "mode": "view"
+    },
+    {
+      "name": "manageServers",
+      "title": "Manage SSH Servers",
+      "description": "Add, view, and remove SSH server configurations",
+      "mode": "view"
+    }
+  ],
+  "preferences": [
+    {
+      "name": "defaultFlags",
+      "title": "Default Flags",
+      "description": "Default flags to use when connecting to SSH servers",
+      "type": "textfield",
+      "required": false,
+      "default": "",
+      "placeholder": "-v"
+    },
+    {
+      "name": "sshPath",
+      "title": "SSH Path",
+      "description": "Custom ssh binary path",
+      "type": "textfield",
+      "required": false,
+      "default": "ssh",
+      "placeholder": "/usr/bin/ssh"
+    },
+    {
+      "name": "configPath",
+      "title": "Config Path",
+      "description": "Path to your ssh config file",
+      "type": "textfield",
+      "required": false,
+      "default": "~/.ssh/config",
+      "placeholder": "~/.ssh/config"
+    },
+    {
+      "name": "defaultShell",
+      "title": "Default Shell",
+      "description": "Default shell to use when connecting to SSH servers",
+      "type": "textfield",
+      "required": false,
+      "default": "powershell",
+      "placeholder": "/bin/fish"
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.101.1",
+    "@raycast/utils": "^2.2.0"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^2.0.4",
+    "@types/node": "24.0.14",
+    "@types/react": "19.1.17",
+    "eslint": "^9.31.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "publish": "ray publish"
+  }
+}
