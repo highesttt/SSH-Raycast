@@ -47,7 +47,7 @@
     },
     {
       "name": "sshPassPath",
-      "title": "SSH Passphrase Path",
+      "title": "sshpass Path",
       "description": "Custom sshpass binary path",
       "type": "textfield",
       "required": false,

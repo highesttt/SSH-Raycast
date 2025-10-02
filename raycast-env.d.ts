@@ -12,7 +12,7 @@ type ExtensionPreferences = {
   "defaultFlags": string,
   /** SSH Path - Custom ssh binary path */
   "sshPath": string,
-  /** SSH Passphrase Path - Custom sshpass binary path */
+  /** sshpdass Path - Custom sshpass binary path */
   "sshPassPath": string,
   /** Config Path - Path to your ssh config file */
   "configPath": string,
