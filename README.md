@@ -6,6 +6,8 @@ This Raycast extension allows you to quickly SSH into your servers directly from
 It provides a list of your configured SSH servers for quick access.\
 The first time you run the extension, it will take some time to scan the root folder and cache the results. Subsequent runs will be faster as it uses cached data.\
 You can also add custom SSH servers that are not in your SSH config file.
+</br>
+> Note: Make sure your server/s are added to the list of known hosts before using the extension to avoid any issues.
 
 ## Requirements 📝
 
