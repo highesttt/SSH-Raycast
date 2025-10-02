@@ -4,19 +4,47 @@ import { promisify } from "util";
 import { SSHServer } from "./interfaces/server";
 
 /**
- * Opens a folder in the user's preferred editor.
- * If a custom editor is defined for the folder's language, it uses that command.
- * Otherwise, it uses the default editor command from preferences.
- * @param folder - The folder path to open.
- * @param language - Optional programming language to determine custom editor.
+ * Opens a given server in the terminal using SSH.
+ * It constructs the SSH command based on user preferences and server details.
+ * @param server - The SSH server details.
+ * @returns A promise that resolves when the command is executed or rejects on error.
  */
 export async function openServerInTerminal(server: SSHServer) {
-  const prefs = getPreferenceValues<{ defaultShell: string, sshPath: string, configPath: string, defaultFlags: string }>();
-  const paraphrase = server.passphrase ? ` -o "IdentityFile=${server.privateKeyPath}" -o "PubkeyAuthentication=yes" -o "PasswordAuthentication=no" -o "KbdInteractiveAuthentication=no" -o "PreferredAuthentications=publickey"` : "";
-  const password = server.password ? ` -o "PubkeyAuthentication=no" -o "PasswordAuthentication=yes" -o "KbdInteractiveAuthentication=no" -o "PreferredAuthentications=password"` : "";
-  const privateKey = server.privateKeyPath ? ` -i ${server.privateKeyPath}` : "";
+  const prefs = getPreferenceValues<{
+    defaultShell: string;
+    sshPath: string;
+    sshPassPath: string;
+    configPath: string;
+    defaultFlags: string;
+    useCygpath: boolean;
+  }>();
+  var privateKeyPath = server.privateKeyPath;
+
+  if (
+    prefs.useCygpath &&
+    server.privateKeyPath &&
+    server.privateKeyPath.length > 0
+  ) {
+    privateKeyPath = await new Promise((resolve, reject) => {
+      exec(`cygpath -a "${server.privateKeyPath}"`, (error, stdout, stderr) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(stdout.trim());
+        }
+      });
+    });
+  }
+
+  const paraphrase = server.passphrase
+    ? ` -o "IdentityFile=${privateKeyPath}" -o "PubkeyAuthentication=yes" -o "PasswordAuthentication=no" -o "KbdInteractiveAuthentication=no" -o "PreferredAuthentications=publickey"`
+    : "";
+  const privateKey =
+    privateKeyPath && privateKeyPath.length > 0 ? ` -i ${privateKeyPath}` : "";
   const extraFlags = server.extraFlags ? ` ${server.extraFlags}` : "";
-  let cmd = `${prefs.defaultShell} -c '${prefs.sshPath} ${prefs.defaultFlags} -F ${prefs.configPath} ${server.user ? `${server.user}@` : ""}${server.host} ${server.port ? `-p ${server.port}` : ""}${privateKey}${paraphrase}${password}${extraFlags}'`;
+  const password = server.password ? `sshpass -p '${server.password}' ` : "";
+  if (!prefs.defaultFlags) prefs.defaultFlags = "";
+  let cmd = `${prefs.defaultShell} -c '${password}${prefs.sshPath} ${prefs.defaultFlags} -F ${prefs.configPath} ${server.user ? `${server.user}@` : ""}${server.host} ${server.port ? `-p ${server.port}` : ""}${privateKey}${paraphrase}${extraFlags}'`;
   try {
     const execAsync = promisify(exec);
 

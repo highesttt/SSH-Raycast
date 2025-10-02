@@ -16,7 +16,7 @@ import { SSHServer } from "./interfaces/server";
  * Main function for the Raycast extension.\
  * \
  * Command to list folders containing .gitignore files.\
- * Allows users to open these folders in a custom editor.
+ * Allows users to open these folders in a custom server.
  */
 export default function Command() {
   const prefs = getPreferenceValues<Preferences>();

@@ -1,6 +1,6 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
-  "name": "code-ext",
+  "name": "ssh-ext",
   "title": "SSH",
   "description": "Quickly ssh into your servers from Raycast",
   "icon": "icon.png",
@@ -15,7 +15,7 @@
   "commands": [
     {
       "name": "serverList",
-      "title": "SSH Server List",
+      "title": "Open in SSH",
       "description": "View and connect to your servers via ssh",
       "mode": "view"
     },
@@ -46,6 +46,15 @@
       "placeholder": "/usr/bin/ssh"
     },
     {
+      "name": "sshPassPath",
+      "title": "SSH Passphrase Path",
+      "description": "Custom sshpass binary path",
+      "type": "textfield",
+      "required": false,
+      "default": "sshpass",
+      "placeholder": "/usr/bin/sshpass"
+    },
+    {
       "name": "configPath",
       "title": "Config Path",
       "description": "Path to your ssh config file",
@@ -62,6 +71,15 @@
       "required": false,
       "default": "powershell",
       "placeholder": "/bin/fish"
+    },
+    {
+      "name": "useCygpath",
+      "title": "Use Cygpath for ssh key paths",
+      "description": "If you're using WSL, Cygwin or MSYS2, enable this to convert Windows paths to Unix paths for ssh key paths",
+      "type": "checkbox",
+      "label": "Enable Cygpath",
+      "required": false,
+      "default": false
     }
   ],
   "dependencies": {

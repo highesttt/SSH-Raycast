@@ -24,8 +24,8 @@ export default function ManageServers() {
   const [showForm, setShowForm] = useState(false);
 
   /**
-   * Handles the removal of a custom editor from the list.
-   * @param index - The index of the editor to remove.
+   * Handles the removal of a server from the list.
+   * @param index - The index of the server to remove.
    */
   function handleRemoveServer(index: number) {
     const updated = servers.filter((_, i) => i !== index);
@@ -85,7 +85,7 @@ export default function ManageServers() {
       .catch((e) => {
         showToast({
           style: Toast.Style.Failure,
-          title: "Error Adding Editor",
+          title: "Error Adding Server",
           message: String(e),
         });
       });
@@ -163,13 +163,13 @@ export default function ManageServers() {
 
   return (
     <List
-      searchBarPlaceholder="Filter by language or command..."
+      searchBarPlaceholder="Filter by name, host, user..."
       onSearchTextChange={setSearchText}
       throttle
       actions={
         <ActionPanel>
           <Action
-            title="Add Custom Editor"
+            title="Add Server"
             icon={Icon.Plus}
             onAction={() => setShowForm(true)}
           />
@@ -177,11 +177,11 @@ export default function ManageServers() {
       }
     >
       <List.EmptyView
-        title={searchText ? "No Custom Editors Found" : "No Custom Editors"}
+        title={searchText ? "No Results" : "No Servers"}
         description={
           searchText
             ? `No results for "${searchText}"`
-            : "Add a custom editor for a language."
+            : "Add a server."
         }
         icon={Icon.Gear}
       />
@@ -196,7 +196,7 @@ export default function ManageServers() {
               <ActionPanel>
                 <ActionPanel.Section>
                   <Action
-                    title="Remove Custom Server"
+                    title="Remove Server"
                     icon={Icon.Trash}
                     onAction={() => handleRemoveServer(idx)}
                   />
